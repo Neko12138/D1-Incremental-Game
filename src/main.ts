@@ -21,11 +21,21 @@ let counter: number = 0;
 
 clickButton.addEventListener("click", () => {
   counter += 1;
-  counterDiv.textContent = `${counter}  🍔`; // updateUI
+  counterDiv.textContent = `${Math.floor(counter)} 🍔`;  // updateUI
 });
 
-// Auto Clicker
-setInterval(() => {
-  counter += 1;
-  counterDiv.textContent = `${counter} 🍔`; // updateUI
-}, 1000); // 1000ms = 1s
+// requestAnimationFrame 
+let lastTime = performance.now(); 
+const cps = 1;
+
+function animate(time: number) {
+  const delta = (time - lastTime) / 1000; // 1000ms
+  lastTime = time;
+
+  counter += cps * delta;
+  counterDiv.textContent = `${Math.floor(counter)} 🍔`;
+
+  requestAnimationFrame(animate); 
+}
+
+requestAnimationFrame(animate);
