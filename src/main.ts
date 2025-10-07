@@ -23,3 +23,9 @@ clickButton.addEventListener("click", () => {
   counter += 1;
   counterDiv.textContent = `${counter}  🍔`; // updateUI
 });
+
+// Auto Clicker
+setInterval(() => {
+  counter += 1; 
+  counterDiv.textContent = `${counter} 🍔`; // updateUI
+}, 1000); // 1000ms = 1s
