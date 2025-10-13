@@ -79,6 +79,11 @@ upgradeButtons.forEach((btn, i) => {
       upgradeCounts[i]++;
       counterDiv.textContent = `${Math.floor(counter)} ₿`;
       updateUpgradeButtons();
+
+      //↑price w/ round
+      u.cost = Math.round(u.cost * 1.1);
+      //update price
+      btn.textContent = ` (${u.name}: +${u.cps} per/s, ${u.cost} ₿)`;
     }
   });
 });
