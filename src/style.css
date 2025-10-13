@@ -3,3 +3,33 @@
   vertical-align: top;
   border: 1px solid salmon;
 }
+
+button {
+  font-size: 18px;
+  padding: 8px 12px;
+}
+
+.counter-display {
+  font-size: 32px;
+  margin: 12px;
+}
+
+/* ₿ button */
+.emoji-button {
+  display: block;
+  margin: 8px auto;
+}
+
+/* space between 1st upgrade button and ₿ button*/
+.upgrade-container {
+  margin-top: 24px;
+  text-align: center;
+}
+
+/* space between each upgrade button */
+.upgrade-button {
+  display: block;
+  margin: 8px auto;
+  font-size: 16px;
+  padding: 6px 12px;
+}

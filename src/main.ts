@@ -5,22 +5,33 @@ document.body.innerHTML =
   `<p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>`;
 
 const counterDiv = document.createElement("div");
-counterDiv.textContent = "0 🍔";
+counterDiv.textContent = "0 ₿";
 counterDiv.className = "counter-display";
 document.body.appendChild(counterDiv);
 
 // -make add burger button
 const clickButton = document.createElement("button");
-clickButton.textContent = "🍔";
+clickButton.textContent = "₿";
 clickButton.className = "emoji-button";
 document.body.appendChild(clickButton);
 
-// -make upgrade burger button
-const upgradeButton = document.createElement("button");
-upgradeButton.textContent = " (+1 per/s, 10 🍔)";
-upgradeButton.className = "upgrade-button";
-upgradeButton.disabled = true;
-document.body.appendChild(upgradeButton);
+// -make upgrade buttons
+const upgrades = [
+  { name: "A", cost: 10, cps: 0.1 },
+  { name: "B", cost: 100, cps: 2.0 },
+  { name: "C", cost: 500, cps: 20.0 },
+];
+
+const upgradeButtons: HTMLButtonElement[] = [];
+
+upgrades.forEach((u) => {
+  const btn = document.createElement("button");
+  btn.textContent = ` (${u.name}: +${u.cps} per/s, ${u.cost} ₿)`;
+  btn.className = "upgrade-button";
+  btn.disabled = true;
+  document.body.appendChild(btn);
+  upgradeButtons.push(btn);
+});
 
 // create counter var
 let counter: number = 0;
@@ -28,21 +39,27 @@ let cps: number = 0;
 
 clickButton.addEventListener("click", () => {
   counter += 1;
-  counterDiv.textContent = `${Math.floor(counter)} 🍔`; // updateUI
+  counterDiv.textContent = `${Math.floor(counter)} ₿`; // updateUI
 });
 
-upgradeButton.addEventListener("click", () => {
-  if (counter >= 10) {
-    counter -= 10;
-    cps += 1;
-    counterDiv.textContent = `${Math.floor(counter)} 🍔`;
-    updateUpgradeButton();
-  }
+upgradeButtons.forEach((btn, i) => {
+  const u = upgrades[i];
+  btn.addEventListener("click", () => {
+    if (counter >= u.cost) {
+      counter -= u.cost;
+      cps += u.cps;
+      counterDiv.textContent = `${Math.floor(counter)} ₿`;
+      updateUpgradeButtons();
+    }
+  });
 });
 
-//not open when <10
-function updateUpgradeButton() {
-  upgradeButton.disabled = counter < 10;
+//not open when < cost
+function updateUpgradeButtons() {
+  upgradeButtons.forEach((btn, i) => {
+    const u = upgrades[i];
+    btn.disabled = counter < u.cost;
+  });
 }
 
 // requestAnimationFrame
@@ -53,9 +70,9 @@ function animate(time: number) {
   lastTime = time;
 
   counter += cps * delta;
-  counterDiv.textContent = `${Math.floor(counter)} 🍔`;
+  counterDiv.textContent = `${Math.floor(counter)} ₿`;
 
-  updateUpgradeButton();
+  updateUpgradeButtons();
   requestAnimationFrame(animate);
 }
 
