@@ -26,14 +26,45 @@ interface Item {
   name: string;
   cost: number;
   rate: number;
+  description: string;
 }
 
 // -make upgrade buttons
 const upgrades = [
-  { name: "🤖Virus Bot", cost: 10, cps: 0.1 },
-  { name: "💻Old Laptop", cost: 100, cps: 2.0 },
-  { name: "🎟New AMDIA GPU", cost: 500, cps: 20.0 },
-  { name: "NEW", cost: 1000, cps: 50.0 },
+  {
+    name: "🤖Virus Bot",
+    cost: 10,
+    cps: 0.1,
+    description:
+      "A virus that invades other people's computers and steals computing power for you.",
+  },
+  {
+    name: "💻Old Laptop",
+    cost: 100,
+    cps: 2.0,
+    description: "A laptop that a college graduate no longer wants.",
+  },
+  {
+    name: "🎟New AMDIA GPU",
+    cost: 500,
+    cps: 20.0,
+    description:
+      "A brand new AMDIA GPU designed to run triple-A games. AMDIA! YES!",
+  },
+  {
+    name: "🎛BitcoinONLY GPU",
+    cost: 1000,
+    cps: 50.0,
+    description:
+      "A GPU that can only be used to acquire Bitcoin. \"If you don't understand something, ask someone who knows it. Don't pretend to know something you don't.\" - Chairman Mao.",
+  },
+  {
+    name: "🖧Large GPU Matrix",
+    cost: 5500,
+    cps: 200.0,
+    description:
+      "A matrix composed of a large number of GPUs has a computing power comparable to that of a quantum computer. But would you use it to mine Bitcoin?",
+  },
 ];
 
 const upgradeButtons: HTMLButtonElement[] = [];
@@ -58,6 +89,11 @@ upgrades.forEach((u) => {
   btn.disabled = true;
   container.appendChild(btn);
   upgradeButtons.push(btn);
+
+  const descDiv = document.createElement("div");
+  descDiv.textContent = u.description;
+  descDiv.className = "upgrade-description";
+  container.appendChild(descDiv);
 
   const rateInfo = document.createElement("div");
   rateInfo.textContent = `+${u.cps} ₿/s`;
