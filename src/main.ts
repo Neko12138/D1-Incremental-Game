@@ -1,8 +1,4 @@
-import exampleIconUrl from "./noun-paperclip-7598668-00449F.png";
 import "./style.css";
-
-document.body.innerHTML =
-  `<p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>`;
 
 //UI container
 const mainContainer = document.createElement("div");
@@ -28,9 +24,9 @@ mainContainer.insertBefore(clickButton, rateDiv);
 
 // -make upgrade buttons
 const upgrades = [
-  { name: "A", cost: 10, cps: 0.1 },
-  { name: "B", cost: 100, cps: 2.0 },
-  { name: "C", cost: 500, cps: 20.0 },
+  { name: "🤖Virus Bot", cost: 10, cps: 0.1 },
+  { name: "💻Old Laptop", cost: 100, cps: 2.0 },
+  { name: "🎟New AMDIA GPU", cost: 500, cps: 20.0 },
 ];
 
 const upgradeButtons: HTMLButtonElement[] = [];
@@ -43,12 +39,12 @@ upgrades.forEach((u) => {
   document.body.appendChild(container);
 
   const countDiv = document.createElement("div");
-  countDiv.textContent = `${u.name} have 0`;
+  countDiv.textContent = `${u.name} 0`;
   countDiv.className = "upgrade-count";
   container.appendChild(countDiv);
 
   const btn = document.createElement("button");
-  btn.textContent = ` (${u.name}: +${u.cps} per/s, ${u.cost} ₿)`;
+  btn.textContent = ` (${u.name} ${u.cost} ₿)`;
   btn.className = "upgrade-button";
   btn.disabled = true;
   container.appendChild(btn);
@@ -83,7 +79,7 @@ upgradeButtons.forEach((btn, i) => {
       //↑price w/ round
       u.cost = Math.round(u.cost * 1.1);
       //update price
-      btn.textContent = ` (${u.name}: +${u.cps} per/s, ${u.cost} ₿)`;
+      btn.textContent = ` (${u.name} ${u.cost} ₿)`;
     }
   });
 });
@@ -96,7 +92,7 @@ function updateUpgradeButtons() {
 
     // update auto click number
     const countDiv = document.getElementsByClassName("upgrade-count")[i];
-    if (countDiv) countDiv.textContent = `${u.name} have ${upgradeCounts[i]}`;
+    if (countDiv) countDiv.textContent = `${u.name} ${upgradeCounts[i]}`;
   });
 
   // update CPS UI
