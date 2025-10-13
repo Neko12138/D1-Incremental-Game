@@ -22,18 +22,27 @@ clickButton.textContent = "₿";
 clickButton.className = "emoji-button";
 mainContainer.insertBefore(clickButton, rateDiv);
 
+interface Item {
+  name: string;
+  cost: number;
+  rate: number;
+}
+
 // -make upgrade buttons
 const upgrades = [
   { name: "🤖Virus Bot", cost: 10, cps: 0.1 },
   { name: "💻Old Laptop", cost: 100, cps: 2.0 },
   { name: "🎟New AMDIA GPU", cost: 500, cps: 20.0 },
+  { name: "NEW", cost: 1000, cps: 50.0 },
 ];
 
 const upgradeButtons: HTMLButtonElement[] = [];
 
-const upgradeCounts: number[] = [0, 0, 0];
+const upgradeCounts: { [key: string]: number } = {};
 
 upgrades.forEach((u) => {
+  upgradeCounts[u.name] = 0;
+
   const container = document.createElement("div");
   container.className = "upgrade-container";
   document.body.appendChild(container);
@@ -72,7 +81,7 @@ upgradeButtons.forEach((btn, i) => {
     if (counter >= u.cost) {
       counter -= u.cost;
       cps += u.cps;
-      upgradeCounts[i]++;
+      upgradeCounts[u.name]++;
       counterDiv.textContent = `${Math.floor(counter)} ₿`;
       updateUpgradeButtons();
 
@@ -92,7 +101,7 @@ function updateUpgradeButtons() {
 
     // update auto click number
     const countDiv = document.getElementsByClassName("upgrade-count")[i];
-    if (countDiv) countDiv.textContent = `${u.name} ${upgradeCounts[i]}`;
+    if (countDiv) countDiv.textContent = `${u.name} ${upgradeCounts[u.name]}`;
   });
 
   // update CPS UI
