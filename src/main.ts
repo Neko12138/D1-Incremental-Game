@@ -4,16 +4,27 @@ import "./style.css";
 document.body.innerHTML =
   `<p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>`;
 
+//UI container
+const mainContainer = document.createElement("div");
+mainContainer.className = "main-container";
+document.body.appendChild(mainContainer);
+
 const counterDiv = document.createElement("div");
 counterDiv.textContent = "0 ₿";
 counterDiv.className = "counter-display";
-document.body.appendChild(counterDiv);
+mainContainer.appendChild(counterDiv);
+
+// CPS
+const rateDiv = document.createElement("div");
+rateDiv.textContent = "0 ₿/s";
+rateDiv.className = "rate-display";
+mainContainer.appendChild(rateDiv);
 
 // -make add burger button
 const clickButton = document.createElement("button");
 clickButton.textContent = "₿";
 clickButton.className = "emoji-button";
-document.body.appendChild(clickButton);
+mainContainer.insertBefore(clickButton, rateDiv);
 
 // -make upgrade buttons
 const upgrades = [
@@ -24,13 +35,29 @@ const upgrades = [
 
 const upgradeButtons: HTMLButtonElement[] = [];
 
+const upgradeCounts: number[] = [0, 0, 0];
+
 upgrades.forEach((u) => {
+  const container = document.createElement("div");
+  container.className = "upgrade-container";
+  document.body.appendChild(container);
+
+  const countDiv = document.createElement("div");
+  countDiv.textContent = `${u.name} have 0`;
+  countDiv.className = "upgrade-count";
+  container.appendChild(countDiv);
+
   const btn = document.createElement("button");
   btn.textContent = ` (${u.name}: +${u.cps} per/s, ${u.cost} ₿)`;
   btn.className = "upgrade-button";
   btn.disabled = true;
-  document.body.appendChild(btn);
+  container.appendChild(btn);
   upgradeButtons.push(btn);
+
+  const rateInfo = document.createElement("div");
+  rateInfo.textContent = `+${u.cps} ₿/s`;
+  rateInfo.className = "upgrade-rate";
+  container.appendChild(rateInfo);
 });
 
 // create counter var
@@ -40,6 +67,7 @@ let cps: number = 0;
 clickButton.addEventListener("click", () => {
   counter += 1;
   counterDiv.textContent = `${Math.floor(counter)} ₿`; // updateUI
+  updateUpgradeButtons();
 });
 
 upgradeButtons.forEach((btn, i) => {
@@ -48,6 +76,7 @@ upgradeButtons.forEach((btn, i) => {
     if (counter >= u.cost) {
       counter -= u.cost;
       cps += u.cps;
+      upgradeCounts[i]++;
       counterDiv.textContent = `${Math.floor(counter)} ₿`;
       updateUpgradeButtons();
     }
@@ -59,7 +88,14 @@ function updateUpgradeButtons() {
   upgradeButtons.forEach((btn, i) => {
     const u = upgrades[i];
     btn.disabled = counter < u.cost;
+
+    // update auto click number
+    const countDiv = document.getElementsByClassName("upgrade-count")[i];
+    if (countDiv) countDiv.textContent = `${u.name} have ${upgradeCounts[i]}`;
   });
+
+  // update CPS UI
+  rateDiv.textContent = `${cps.toFixed(1)} ₿/s`;
 }
 
 // requestAnimationFrame
