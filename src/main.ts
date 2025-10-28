@@ -76,6 +76,10 @@ clickButton.textContent = "₿";
 clickButton.className = "emoji-button";
 mainContainer.insertBefore(clickButton, rateDiv);
 
+// Cache arrays for later DOM updates
+const upgradeContainers: HTMLDivElement[] = [];
+const upgradeCountDisplays: HTMLDivElement[] = [];
+
 // -make upgrade buttons
 upgrades.forEach((u) => {
   upgradeCounts[u.name] = 0;
@@ -105,6 +109,10 @@ upgrades.forEach((u) => {
   rateInfo.textContent = `+${u.cps} ₿/s`;
   rateInfo.className = "upgrade-rate";
   container.appendChild(rateInfo);
+
+  // cache references for quick updates
+  upgradeContainers.push(container);
+  upgradeCountDisplays.push(countDiv);
 });
 
 // --- Game Logic ---
@@ -139,9 +147,8 @@ function updateUpgradeButtons() {
     const u = upgrades[i];
     btn.disabled = counter < u.cost;
 
-    // update auto click number
-    const countDiv = document.getElementsByClassName("upgrade-count")[i];
-    if (countDiv) countDiv.textContent = `${u.name} ${upgradeCounts[u.name]}`;
+    // update cached count display
+    upgradeCountDisplays[i].textContent = `${u.name} ${upgradeCounts[u.name]}`;
   });
 
   // update CPS UI
