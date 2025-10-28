@@ -1,10 +1,13 @@
 import "./style.css";
 
+// --- Game State ---
 let counter: number = 0;
 let cps: number = 0;
 const upgradeButtons: HTMLButtonElement[] = [];
 const upgradeCounts: { [key: string]: number } = {};
+let lastTime = performance.now();
 
+// --- Type Definitions ---
 interface Item {
   name: string;
   cost: number;
@@ -12,6 +15,7 @@ interface Item {
   description: string;
 }
 
+// --- Upgrade Data ---
 const upgrades = [
   {
     name: "🤖Virus Bot",
@@ -49,6 +53,7 @@ const upgrades = [
   },
 ];
 
+// --- UI Setup ---
 //UI container
 const mainContainer = document.createElement("div");
 mainContainer.className = "main-container";
@@ -102,6 +107,7 @@ upgrades.forEach((u) => {
   container.appendChild(rateInfo);
 });
 
+// --- Game Logic ---
 clickButton.addEventListener("click", () => {
   counter += 1;
   counterDiv.textContent = `${Math.floor(counter)} ₿`; // updateUI
@@ -126,6 +132,7 @@ upgradeButtons.forEach((btn, i) => {
   });
 });
 
+// --- UI Update ---
 //not open when < cost
 function updateUpgradeButtons() {
   upgradeButtons.forEach((btn, i) => {
@@ -141,9 +148,8 @@ function updateUpgradeButtons() {
   rateDiv.textContent = `${cps.toFixed(1)} ₿/s`;
 }
 
+// --- Animation Loop ---
 // requestAnimationFrame
-let lastTime = performance.now();
-
 function animate(time: number) {
   const delta = (time - lastTime) / 1000; // 1000ms
   lastTime = time;
