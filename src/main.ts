@@ -1,26 +1,9 @@
 import "./style.css";
 
-//UI container
-const mainContainer = document.createElement("div");
-mainContainer.className = "main-container";
-document.body.appendChild(mainContainer);
-
-const counterDiv = document.createElement("div");
-counterDiv.textContent = "0 ₿";
-counterDiv.className = "counter-display";
-mainContainer.appendChild(counterDiv);
-
-// CPS
-const rateDiv = document.createElement("div");
-rateDiv.textContent = "0 ₿/s";
-rateDiv.className = "rate-display";
-mainContainer.appendChild(rateDiv);
-
-// -make add burger button
-const clickButton = document.createElement("button");
-clickButton.textContent = "₿";
-clickButton.className = "emoji-button";
-mainContainer.insertBefore(clickButton, rateDiv);
+let counter: number = 0;
+let cps: number = 0;
+const upgradeButtons: HTMLButtonElement[] = [];
+const upgradeCounts: { [key: string]: number } = {};
 
 interface Item {
   name: string;
@@ -29,7 +12,6 @@ interface Item {
   description: string;
 }
 
-// -make upgrade buttons
 const upgrades = [
   {
     name: "🤖Virus Bot",
@@ -67,10 +49,29 @@ const upgrades = [
   },
 ];
 
-const upgradeButtons: HTMLButtonElement[] = [];
+//UI container
+const mainContainer = document.createElement("div");
+mainContainer.className = "main-container";
+document.body.appendChild(mainContainer);
 
-const upgradeCounts: { [key: string]: number } = {};
+const counterDiv = document.createElement("div");
+counterDiv.textContent = "0 ₿";
+counterDiv.className = "counter-display";
+mainContainer.appendChild(counterDiv);
 
+// CPS
+const rateDiv = document.createElement("div");
+rateDiv.textContent = "0 ₿/s";
+rateDiv.className = "rate-display";
+mainContainer.appendChild(rateDiv);
+
+// -make add burger button
+const clickButton = document.createElement("button");
+clickButton.textContent = "₿";
+clickButton.className = "emoji-button";
+mainContainer.insertBefore(clickButton, rateDiv);
+
+// -make upgrade buttons
 upgrades.forEach((u) => {
   upgradeCounts[u.name] = 0;
 
@@ -100,10 +101,6 @@ upgrades.forEach((u) => {
   rateInfo.className = "upgrade-rate";
   container.appendChild(rateInfo);
 });
-
-// create counter var
-let counter: number = 0;
-let cps: number = 0;
 
 clickButton.addEventListener("click", () => {
   counter += 1;
