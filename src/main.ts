@@ -116,11 +116,37 @@ upgrades.forEach((u) => {
 });
 
 // --- Game Logic ---
-clickButton.addEventListener("click", () => {
+clickButton.addEventListener("click", (ev) => {
   counter += 1;
   counterDiv.textContent = `${Math.floor(counter)} ₿`; // updateUI
   updateUpgradeButtons();
+
+  // add number
+  // idea from inyoo403
+  // https://github.com/inyoo403/D1.a
+  const rect = clickButton.getBoundingClientRect();
+  const x = ev.clientX ?? rect.left + rect.width / 2;
+  const y = ev.clientY ?? rect.top + rect.height / 2;
+  showFloatingText(1, x, y, mainContainer);
 });
+
+function showFloatingText(
+  amount: number,
+  x: number,
+  y: number,
+  container: HTMLElement,
+) {
+  const el = document.createElement("div");
+  el.className = "floating-text";
+  el.textContent = `+${amount}`;
+  container.appendChild(el);
+
+  const rect = container.getBoundingClientRect();
+  el.style.left = `${x - rect.left}px`;
+  el.style.top = `${y - rect.top}px`;
+
+  el.addEventListener("animationend", () => el.remove());
+}
 
 upgradeButtons.forEach((btn, i) => {
   const u = upgrades[i];

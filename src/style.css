@@ -4,6 +4,13 @@
   border: 1px solid salmon;
 }
 
+/* from CSS file of
+https://github.com/riyer4/cmpm-121-f25-Ria-Iyer-D1
+*/
+body {
+  background-color: #00ffea;
+}
+
 button {
   font-size: 18px;
   padding: 8px 12px;
@@ -58,4 +65,29 @@ button {
 .rate-display {
   font-size: 16px;
   margin-bottom: 12px;
+}
+
+/* code idea from
+https://github.com/inyoo403/D1.a
+ */
+.floating-text {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000000;
+  pointer-events: none;
+  animation: floatUp 1s ease-out forwards;
+  z-index: 1000;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
 }
